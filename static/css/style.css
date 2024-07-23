@@ -1,0 +1,28 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.calculadora {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+}
+
+.form-icon {
+    color: #007bff;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.btn-calcular {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.btn-calcular:hover {
+    background-color: #0056b3;
+}
