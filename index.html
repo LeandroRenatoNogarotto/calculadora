@@ -17,17 +17,17 @@
         <div class="calculadora p-4 shadow rounded">
             <form>
                 <figure class="text-center mb-4">
-                    <h4>Calculadora de Juros Compostos</h4>
+                    <h4 class="font-weight-bold">Calculadora de Juros Compostos</h4>
                     <figcaption class="blockquote-footer">
                         Faça simulações de renda fixa
                     </figcaption>
                 </figure>
                 <div class="form-icon text-center mb-4">
-                    <i class="fas fa-calculator fa-3x"></i>
+                    <i class="fas fa-calculator fa-4x"></i>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-6 mb-3">
-                        <label for="aporteInicial">Investimento inicial</label>
+                        <label for="aporteInicial">Valor Inicial</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">R$</span>
@@ -54,15 +54,34 @@
                         <label for="meses">Meses</label>
                         <input type="number" class="form-control" id="meses" value="0">
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="inflacaoCheck">
+                            <label class="form-check-label" for="inflacaoCheck">Considerar Inflação</label>
+                        </div>
+                        <input type="text" class="form-control mt-2" id="inflacao" placeholder="Inflação %" disabled>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-12 mb-3">
-                        <button type="button" class="btn btn-primary btn-block" id="calcularBtn">Calcular</button>
+                        <button type="button" class="btn btn-primary btn-block btn-calcular" id="calcularBtn">Calcular</button>
                     </div>
                 </div>
             </form>
-            <div class="resultado">
-                <h5>Resultado</h5>
+            <div id="instructions" class="alert alert-info">
+                <strong>Como utilizar a calculadora de juros compostos?</strong>
+                <ul>
+                    <li>Preencha o campo de Valor Inicial;</li>
+                    <li>Preencha o campo de Investimento inicial (Quanto dinheiro você quer);</li>
+                    <li>Preencha o campo período por meses ou anos;</li>
+                    <li>defina se deseja considerar inflação e preencha (taxa anual).</li>
+                    <li>Clique em calcular e veja o resultado.</li>
+                    <li>A taxa de juros vem pré-definida em 10% mas você pode alterar no campo taxa de juros.</li>
+                    <li>Preencha a taxa de juros anual ou mensal;</li>
+                </ul>
+            </div>
+            <div class="resultado mt-4">
+                <h5 class="font-weight-bold">Resultado</h5>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="thead-light">
@@ -80,7 +99,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="jurosAno" value="10.00">
                                         <div class="input-group-append">
-                                            <label class="input-group-text" for="periodoJuros">Período</label>
+                                            <label class="input-group-text" for="periodoJuros">%</label>
                                             <select class="custom-select" id="periodoJuros">
                                                 <option value="ano" selected>Ano</option>
                                                 <option value="mes">Mês</option>
@@ -101,6 +120,7 @@
                                 <th>Total Investido</th>
                                 <th>Total Juros</th>
                                 <th>Total Acumulado</th>
+                                <th id="inflacaoColuna" style="display:none;">Total Corrigido</th>
                             </tr>
                         </thead>
                         <tbody id="tabelaJuros">
