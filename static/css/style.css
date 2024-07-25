@@ -1,12 +1,12 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #e5e5e5; /* Cinza claro */
+    background-color: #f5f3f4; /* Cinza muito claro para o fundo */
     margin: 0;
     padding: 0;
 }
 
 .calculadora {
-    background-color: #ffffff; /* Branco */
+    background-color: #ffffff; /* Branco para o fundo da calculadora */
     padding: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
@@ -15,7 +15,7 @@ body {
 }
 
 .form-icon {
-    color: #fca311; /* Amarelo para o ícone */
+    color: #660708; /* Vermelho escuro para o ícone */
 }
 
 .table th, .table td {
@@ -23,31 +23,31 @@ body {
 }
 
 .btn-calcular {
-    background-color: #14213d; /* Azul escuro para o botão */
+    background-color: #660708; /* Vermelho escuro para o botão */
     color: #ffffff; /* Branco para o texto do botão */
     font-weight: bold;
 }
 
 .btn-calcular:hover {
-    background-color: #000000; /* Preto para o hover do botão */
+    background-color: #a4161a; /* Vermelho mais claro para o hover do botão */
 }
 
 .table thead th {
-    background-color: #14213d; /* Azul escuro para o cabeçalho da tabela */
+    background-color: #161a1d; /* Cinza escuro para o cabeçalho da tabela */
     color: #ffffff; /* Branco para o texto do cabeçalho */
 }
 
 .table tbody tr:nth-child(even) {
-    background-color: #ffffff; /* Branco para linhas pares da tabela */
+    background-color: #d3d3d3; /* Cinza claro para linhas pares da tabela */
 }
 
 .table tbody tr:hover {
-    background-color: #fca311; /* Amarelo para o hover das linhas da tabela */
+    background-color: #b1a7a6; /* Bege claro para o hover das linhas da tabela */
 }
 
 #instructions {
-    background-color: #e5e5e5; /* Cinza claro para o fundo das instruções */
-    color: #14213d; /* Azul escuro para o texto das instruções */
+    background-color: #d3d3d3; /* Vermelho coral para o fundo das instruções */
+    color: #161a1d; /* Branco para o texto das instruções */
     padding: 1rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
