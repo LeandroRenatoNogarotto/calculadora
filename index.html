@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <script src="static/js/calculadora.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -48,11 +49,11 @@
                 <div class="form-group row">
                     <div class="col-md-3 mb-3">
                         <label for="anos">Anos</label>
-                        <input type="number" class="form-control" id="anos" value="1">
+                        <input type="number" class="form-control" id="anos" value="1" placeholder="0">
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="meses">Meses</label>
-                        <input type="number" class="form-control" id="meses" value="0">
+                        <input type="number" class="form-control" id="meses" value="0" placeholder="0" >
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-check">
@@ -63,8 +64,11 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-12 mb-3">
-                        <button type="button" class="btn btn-primary btn-block btn-calcular" id="calcularBtn">Calcular</button>
+                    <div class="col-md-6 mb-3">
+                        <button type="button" class="btn btn-danger btn-block btn-calcular" id="calcularBtn">Calcular</button>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <button type="button" class="btn btn-secondary btn-block" id="limparBtn">Limpar</button>
                     </div>
                 </div>
             </form>
@@ -80,9 +84,42 @@
                     <li>Preencha a taxa de juros anual ou mensal;</li>
                 </ul>
             </div>
-            <div class="resultado mt-4">
-                <h5 class="font-weight-bold">Resultado</h5>
-                <div class="table-responsive">
+            <h3 id="resultadosTitle" class="hidden">Resultado</h3>
+            <div id="resultados" class="hidden">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-danger mb-3">
+                            <div class="card-header">Valor total final</div>
+                            <div class="card-body">
+                                <h5 class="card-title" id="valorFinalResult"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-secondary mb-3">
+                            <div class="card-header">Valor total investido</div>
+                            <div class="card-body">
+                                <h5 class="card-title" id="valorInvestidoResult"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-dark mb-3">
+                            <div class="card-header">Total em juros</div>
+                            <div class="card-body">
+                                <h5 class="card-title" id="totalJurosResult"></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group mb-3" role="group">
+                    <button type="button" class="btn btn-outline-danger" id="mostrarGrafico">Gráfico</button>
+                    <button type="button" class="btn btn-outline-danger" id="mostrarTabela">Tabela</button>
+                </div>
+                <div id="graficoContainer" style="display:none;">
+                    <canvas id="grafico"></canvas>
+                </div>
+                <div id="tabelaContainer" class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="thead-light">
                             <tr>
@@ -110,8 +147,6 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="thead-light">
                             <tr>

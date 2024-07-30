@@ -4,10 +4,50 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('instructions').style.display = 'none';
         calcular();
     });
+
     document.getElementById('inflacaoCheck').addEventListener('change', function() {
         document.getElementById('inflacao').disabled = !this.checked;
     });
+
+    document.getElementById('limparBtn').addEventListener('click', function() {
+        limparCampos();
+    });
+
+    document.getElementById('mostrarGrafico').addEventListener('click', function() {
+        mostrarGrafico();
+    });
+
+    document.getElementById('mostrarTabela').addEventListener('click', function() {
+        document.getElementById('tabelaContainer').style.display = 'block';
+        document.getElementById('graficoContainer').style.display = 'none';
+    });
 });
+function limparCampos() {
+    // Limpar os campos de entrada
+    document.getElementById('valorFinal').value = '';
+    document.getElementById('aporteInicial').value = '';
+    document.getElementById('anos').value = '';
+    document.getElementById('meses').value = '';
+    document.getElementById('periodoJuros').value = 'ano';
+    document.getElementById('inflacao').value = '';
+    document.getElementById('inflacaoCheck').checked = false;
+
+    // Limpar os campos de resultado
+    document.getElementById('aporteMensalNecessario').innerText = '';
+    document.getElementById('valorFinalResult').innerText = '';
+    document.getElementById('valorInvestidoResult').innerText = '';
+    document.getElementById('totalJurosResult').innerText = '';
+
+    // Limpar a tabela de juros
+    const tabela = document.getElementById('tabelaJuros');
+    if (tabela) {
+        tabela.innerHTML = ''; // Limpa o conteúdo da tabela
+    }
+
+    // Ocultar resultados
+    document.getElementById('resultadosTitle').classList.add('hidden');
+    document.getElementById('resultados').classList.add('hidden');
+}
 
 function formatarMoeda(value) {
     return `R$ ${new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value)}`;
@@ -24,23 +64,19 @@ function calcularAporteMensalNecessario(valorFinal, aporteInicial, jurosMensal, 
     if (inflacaoMensal === 0) {
         // Cálculo sem inflação
         if (jurosMensal === 0) {
-            // Se a taxa de juros é 0, o cálculo é simplesmente o valor final menos o aporte inicial dividido pelo período
             return (valorFinal - aporteInicial) / periodo;
         } else {
             let valorFuturoDescontado = valorFinal - (aporteInicial * Math.pow((1 + jurosMensal), periodo));
             return valorFuturoDescontado * jurosMensal / (Math.pow((1 + jurosMensal), periodo) - 1);
         }
     } else {
-        // Cálculo com inflação
         if (jurosMensal <= inflacaoMensal) {
             alert("A taxa de juros deve ser maior que a inflação. O cálculo será realizado, mas a inflação pode impactar negativamente.");
         }
 
-        // Calcula o valor final ajustado pela inflação
         let valorFinalAjustado = valorFinal * Math.pow(1 + inflacaoMensal, periodo);
 
         if (jurosMensal === 0) {
-            // Se a taxa de juros é 0, o cálculo é simplesmente o valor final ajustado menos o aporte inicial dividido pelo período
             return (valorFinalAjustado - aporteInicial) / periodo;
         } else {
             let valorFuturoDescontado = valorFinalAjustado - (aporteInicial * Math.pow((1 + jurosMensal), periodo));
@@ -77,7 +113,17 @@ function calcular() {
 
     const aporteMensalNecessario = calcularAporteMensalNecessario(valorFinal, aporteInicial, jurosMensal, periodo, inflacaoMensal);
 
+    // Atualizar resultados de valor total final, valor total investido e total em juros
+    const resultados = calcularResultados(aporteInicial, aporteMensalNecessario, jurosMensal, periodo, inflacaoMensal, valorFinal);
+    document.getElementById('valorFinalResult').innerText = formatarMoeda(resultados.valorFinal);
+    document.getElementById('valorInvestidoResult').innerText = formatarMoeda(resultados.valorInvestido);
+    document.getElementById('totalJurosResult').innerText = formatarMoeda(resultados.totalJuros);
+
     if (!isNaN(aporteMensalNecessario)) {
+
+        document.getElementById('resultadosTitle').classList.remove('hidden');
+        document.getElementById('resultados').classList.remove('hidden');
+
         document.getElementById('aporteMensalNecessario').innerText = formatarMoeda(aporteMensalNecessario);
         gerarTabelaJuros(aporteInicial, aporteMensalNecessario, jurosMensal, periodo, inflacaoMensal, valorFinal);
     } else {
@@ -87,6 +133,37 @@ function calcular() {
     document.querySelector('.resultado').scrollIntoView({
         behavior: 'smooth'
     });
+
+}
+
+function calcularResultados(aporteInicial, aporteMensal, jurosMensal, periodo, inflacaoMensal, valorFinal) {
+    let totalInvestido = aporteInicial;
+    let totalJuros = 0;
+    let totalAcumulado = aporteInicial;
+
+    for (let mes = 0; mes <= periodo; mes++) {
+        let juros = totalAcumulado * jurosMensal;
+        if (mes > 0) { // Adiciona o aporte mensal a partir do mês 1
+            totalAcumulado += juros + aporteMensal;
+            totalInvestido += aporteMensal;
+            totalJuros += juros;
+        }
+
+        let totalCorrigido = totalAcumulado;
+        if (inflacaoMensal > 0) {
+            // Corrigir o valor acumulado com base na inflação
+            totalCorrigido = totalAcumulado / Math.pow(1 + inflacaoMensal, mes);
+        }
+
+        // Atualizar o valor final considerando a inflação
+        valorFinalCorrigido = totalCorrigido;
+    }
+
+    return {
+        valorFinal: totalAcumulado,
+        valorInvestido: totalInvestido,
+        totalJuros: totalAcumulado - totalInvestido
+    };
 }
 
 function gerarTabelaJuros(aporteInicial, aporteMensal, jurosMensal, periodo, inflacaoMensal, valorFinal) {
@@ -122,3 +199,70 @@ function gerarTabelaJuros(aporteInicial, aporteMensal, jurosMensal, periodo, inf
         }
     }
 }
+
+function mostrarGrafico() {
+    const ctx = document.getElementById('grafico').getContext('2d');
+    const labels = [];
+    const dadosJuros = [];
+    const dadosInvestido = [];
+    const dadosTotalAcumulado = [];
+    const dadosTotalCorrigido = [];
+
+    const tabela = document.getElementById('tabelaJuros').rows;
+    for (let i = 1; i < tabela.length; i++) { // Começa de 1 para pular o cabeçalho
+        const cells = tabela[i].cells;
+        labels.push(cells[0].innerText);
+        dadosJuros.push(moedaParaFloat(cells[1].innerText));
+        dadosInvestido.push(moedaParaFloat(cells[2].innerText));
+        dadosTotalAcumulado.push(moedaParaFloat(cells[4].innerText));
+        if (document.getElementById('inflacaoCheck').checked) {
+            dadosTotalCorrigido.push(moedaParaFloat(cells[5].innerText));
+        }
+    }
+
+    const datasets = [
+        {
+            label: 'Total Investido',
+            data: dadosInvestido,
+            backgroundColor: 'rgba(0, 123, 255, 0.2)',
+            borderColor: 'rgba(0, 123, 255, 1)',
+            borderWidth: 1
+        },
+        {
+            label: 'Total Acumulado',
+            data: dadosTotalAcumulado,
+            backgroundColor: 'rgba(40, 167, 69, 0.2)',
+            borderColor: 'rgba(40, 167, 69, 1)',
+            borderWidth: 1
+        }
+    ];
+
+    if (document.getElementById('inflacaoCheck').checked) {
+        datasets.push({
+            label: 'Total Corrigido',
+            data: dadosTotalCorrigido,
+            backgroundColor: 'rgba(255, 193, 7, 0.2)',
+            borderColor: 'rgba(255, 193, 7, 1)',
+            borderWidth: 1
+        });
+    }
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    document.getElementById('graficoContainer').style.display = 'block';
+    document.getElementById('tabelaContainer').style.display = 'none';
+}
+

@@ -14,6 +14,11 @@ body {
     margin: auto;
 }
 
+.hidden {
+    display: none;
+}
+
+
 .form-icon {
     color: #660708; /* Vermelho escuro para o ícone */
 }
@@ -31,6 +36,17 @@ body {
 .btn-calcular:hover {
     background-color: #a4161a; /* Vermelho mais claro para o hover do botão */
 }
+
+.btn-secondary {
+    background-color: #6c757d; /* Cinza para o botão Limpar */
+    color: #ffffff; /* Branco para o texto do botão Limpar */
+    font-weight: bold;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Cinza mais escuro para o hover do botão Limpar */
+}
+
 
 .table thead th {
     background-color: #161a1d; /* Cinza escuro para o cabeçalho da tabela */
