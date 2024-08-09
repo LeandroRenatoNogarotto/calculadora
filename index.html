@@ -55,7 +55,19 @@
                         <label for="meses">Meses</label>
                         <input type="number" class="form-control" id="meses" value="0" placeholder="0" >
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-3 mb-3">
+                        <label for="jurosAno">Taxa de Juros (%)</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="jurosAno" value="10.00">
+                            <div class="input-group-append">
+                                <select class="custom-select" id="periodoJuros">
+                                    <option value="ano" selected>Ano</option>
+                                    <option value="mes">Mês</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="inflacaoCheck">
                             <label class="form-check-label" for="inflacaoCheck">Considerar Inflação</label>
@@ -78,7 +90,7 @@
                     <li>Preencha o campo de Valor Inicial;</li>
                     <li>Preencha o campo de Investimento inicial (Quanto dinheiro você quer);</li>
                     <li>Preencha o campo período por meses ou anos;</li>
-                    <li>defina se deseja considerar inflação e preencha (taxa anual).</li>
+                    <li>Defina se deseja considerar inflação e preencha (taxa anual).</li>
                     <li>Clique em calcular e veja o resultado.</li>
                     <li>A taxa de juros vem pré-definida em 10% mas você pode alterar no campo taxa de juros.</li>
                     <li>Preencha a taxa de juros anual ou mensal;</li>
@@ -87,6 +99,14 @@
             <h3 id="resultadosTitle" class="hidden">Resultado</h3>
             <div id="resultados" class="hidden">
                 <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-info mb-3">
+                            <div class="card-header">Investimento mensal necessário</div>
+                            <div class="card-body">
+                                <h5 class="card-title" id="aporteMensalNecessario"></h5>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-4">
                         <div class="card text-white bg-danger mb-3">
                             <div class="card-header">Valor total final</div>
@@ -116,36 +136,12 @@
                     <button type="button" class="btn btn-outline-danger" id="mostrarGrafico">Gráfico</button>
                     <button type="button" class="btn btn-outline-danger" id="mostrarTabela">Tabela</button>
                 </div>
-                <div id="graficoContainer" style="display:none;">
+                <div id="graficoContainer" style="display: none;">
                     <canvas id="grafico"></canvas>
                 </div>
+                
                 <div id="tabelaContainer" class="table-responsive">
                     <table class="table table-bordered">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>DESCRIÇÃO</th>
-                                <th>VALOR</th>
-                                <th colspan="2">TAXA DE JUROS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Investimento mensal necessário</td>
-                                <td id="aporteMensalNecessario" class="text-info"></td>
-                                <td colspan="2">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="jurosAno" value="10.00">
-                                        <div class="input-group-append">
-                                            <label class="input-group-text" for="periodoJuros">%</label>
-                                            <select class="custom-select" id="periodoJuros">
-                                                <option value="ano" selected>Ano</option>
-                                                <option value="mes">Mês</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
                     </table>
                     <table class="table table-bordered">
                         <thead class="thead-light">

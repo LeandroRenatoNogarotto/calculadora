@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('graficoContainer').style.display = 'none';
     });
 });
+
 function limparCampos() {
     // Limpar os campos de entrada
     document.getElementById('valorFinal').value = '';
@@ -125,7 +126,7 @@ function calcular() {
         document.getElementById('resultados').classList.remove('hidden');
 
         document.getElementById('aporteMensalNecessario').innerText = formatarMoeda(aporteMensalNecessario);
-        gerarTabelaJuros(aporteInicial, aporteMensalNecessario, jurosMensal, periodo, inflacaoMensal, valorFinal);
+        calcularJuros(aporteInicial, aporteMensalNecessario, jurosMensal, periodo, inflacaoMensal, valorFinal);
     } else {
         alert("Houve um erro no cálculo do aporte mensal necessário.");
     }
@@ -166,13 +167,19 @@ function calcularResultados(aporteInicial, aporteMensal, jurosMensal, periodo, i
     };
 }
 
-function gerarTabelaJuros(aporteInicial, aporteMensal, jurosMensal, periodo, inflacaoMensal, valorFinal) {
+function calcularJuros(aporteInicial, aporteMensal, jurosMensal, periodo, inflacaoMensal, valorFinal) {
     let tabela = document.getElementById('tabelaJuros');
     tabela.innerHTML = ''; // Limpa o conteúdo da tabela
 
     let totalInvestido = aporteInicial;
     let totalJuros = 0;
     let totalAcumulado = aporteInicial;
+
+    let labels = [];
+    let dadosJuros = [];
+    let dadosInvestido = [];
+    let dadosTotalAcumulado = [];
+    let dadosTotalCorrigido = [];
 
     for (let mes = 0; mes <= periodo; mes++) { // Começa a contagem dos meses a partir de 0
         let juros = totalAcumulado * jurosMensal;
@@ -189,80 +196,89 @@ function gerarTabelaJuros(aporteInicial, aporteMensal, jurosMensal, periodo, inf
         }
 
         let row = tabela.insertRow();
-        row.insertCell(0).innerText = mes; // Exibe o mês corretamente
-        row.insertCell(1).innerText = mes > 0 ? formatarMoeda(juros) : '--'; // Não exibe juros no mês 0
+        row.insertCell(0).innerText = mes;
+        row.insertCell(1).innerText = formatarMoeda(juros);
         row.insertCell(2).innerText = formatarMoeda(totalInvestido);
-        row.insertCell(3).innerText = mes > 0 ? formatarMoeda(totalJuros) : '--'; // Não exibe total de juros no mês 0
+        row.insertCell(3).innerText = formatarMoeda(totalJuros);
         row.insertCell(4).innerText = formatarMoeda(totalAcumulado);
         if (document.getElementById('inflacaoCheck').checked) {
             row.insertCell(5).innerText = formatarMoeda(totalCorrigido);
         }
+
+        labels.push(mes.toString());
+        dadosJuros.push(totalJuros);
+        dadosInvestido.push(totalInvestido);
+        dadosTotalAcumulado.push(totalAcumulado);
+        if (document.getElementById('inflacaoCheck').checked) {
+            dadosTotalCorrigido.push(totalCorrigido);
+        }
+        
     }
+
+    mostrarGrafico(labels, dadosJuros, dadosInvestido, dadosTotalAcumulado, dadosTotalCorrigido);
 }
 
-function mostrarGrafico() {
+function mostrarGrafico(labels, dadosJuros, dadosInvestido, dadosTotalAcumulado) {
+    document.getElementById('tabelaContainer').style.display = 'none';
+    document.getElementById('graficoContainer').style.display = 'block';
+
     const ctx = document.getElementById('grafico').getContext('2d');
-    const labels = [];
-    const dadosJuros = [];
-    const dadosInvestido = [];
-    const dadosTotalAcumulado = [];
-    const dadosTotalCorrigido = [];
 
-    const tabela = document.getElementById('tabelaJuros').rows;
-    for (let i = 1; i < tabela.length; i++) { // Começa de 1 para pular o cabeçalho
-        const cells = tabela[i].cells;
-        labels.push(cells[0].innerText);
-        dadosJuros.push(moedaParaFloat(cells[1].innerText));
-        dadosInvestido.push(moedaParaFloat(cells[2].innerText));
-        dadosTotalAcumulado.push(moedaParaFloat(cells[4].innerText));
-        if (document.getElementById('inflacaoCheck').checked) {
-            dadosTotalCorrigido.push(moedaParaFloat(cells[5].innerText));
-        }
+    // Destroy previous chart if it exists
+    if (window.myChart) {
+        window.myChart.destroy();
     }
 
-    const datasets = [
-        {
-            label: 'Total Investido',
-            data: dadosInvestido,
-            backgroundColor: 'rgba(0, 123, 255, 0.2)',
-            borderColor: 'rgba(0, 123, 255, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Total Acumulado',
-            data: dadosTotalAcumulado,
-            backgroundColor: 'rgba(40, 167, 69, 0.2)',
-            borderColor: 'rgba(40, 167, 69, 1)',
-            borderWidth: 1
-        }
-    ];
-
-    if (document.getElementById('inflacaoCheck').checked) {
-        datasets.push({
-            label: 'Total Corrigido',
-            data: dadosTotalCorrigido,
-            backgroundColor: 'rgba(255, 193, 7, 0.2)',
-            borderColor: 'rgba(255, 193, 7, 1)',
-            borderWidth: 1
-        });
-    }
-
-    new Chart(ctx, {
-        type: 'line',
+    window.myChart = new Chart(ctx, {
+        type: 'bar',
         data: {
             labels: labels,
-            datasets: datasets
+            datasets: [
+                {
+                    label: 'Valor Investido',
+                    data: dadosInvestido,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)', // Adjust transparency for overlapping effect
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Total em Juros',
+                    data: dadosJuros,
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)', // Adjust transparency for overlapping effect
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }
+            ]
         },
         options: {
+            responsive: true,
             scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Mês'
+                    },
+                    stacked: true // Enable stacking for x-axis
+                },
                 y: {
-                    beginAtZero: true
+                    title: {
+                        display: true,
+                        text: 'Valor (R$)'
+                    },
+                    beginAtZero: true,
+                    stacked: true // Enable stacking for y-axis
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
                 }
             }
         }
     });
-
-    document.getElementById('graficoContainer').style.display = 'block';
-    document.getElementById('tabelaContainer').style.display = 'none';
 }
 
