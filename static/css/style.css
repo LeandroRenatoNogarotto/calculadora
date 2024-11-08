@@ -1,70 +1,87 @@
+
+
+
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f5f3f4; /* Cinza muito claro para o fundo */
+    background-color: #fdfdfd;
     margin: 0;
     padding: 0;
-}
-
-.calculadora {
-    background-color: #ffffff; /* Branco para o fundo da calculadora */
+  }
+  
+  .calculadora {
+    background-color: #f5f3f4ff;
     padding: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
     max-width: 800px;
     margin: auto;
-}
+  }
+  
 
-.hidden {
+  .bg-total{
+    background-color: #481d24 !important;
+
+   }
+
+
+
+
+  .bg-custom {
+    background-color: #255f85 !important;
+    /* Altere essa cor conforme sua preferência */
+  }
+  
+  
+  .hidden {
     display: none;
-}
-
-
-.form-icon {
-    color: #660708; /* Vermelho escuro para o ícone */
-}
-
-.table th, .table td {
+  }
+  
+  .form-icon {
+    color: #660708;
+  }
+  
+  .table th,
+  .table td {
     vertical-align: middle;
-}
-
-.btn-calcular {
-    background-color: #660708; /* Vermelho escuro para o botão */
-    color: #ffffff; /* Branco para o texto do botão */
+  }
+  
+  .btn-calcular {
+    background-color: #660708;
+    color: #ffffff;
     font-weight: bold;
-}
-
-.btn-calcular:hover {
-    background-color: #85110c; /* Vermelho mais claro para o hover do botão */
-}
-
-.btn-secondary {
-    background-color: #6c757d; /* Cinza para o botão Limpar */
-    color: #ffffff; /* Branco para o texto do botão Limpar */
+  }
+  
+  .btn-calcular:hover {
+    background-color: #85110c;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    color: #ffffff;
     font-weight: bold;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268; /* Cinza mais escuro para o hover do botão Limpar */
-}
-
-
-.table thead th {
-    background-color: #161a1d; /* Cinza escuro para o cabeçalho da tabela */
-    color: #ffffff; /* Branco para o texto do cabeçalho */
-}
-
-.table tbody tr:nth-child(even) {
-    background-color: #d3d3d3; /* Cinza claro para linhas pares da tabela */
-}
-
-.table tbody tr:hover {
-    background-color: #b1a7a6; /* Bege claro para o hover das linhas da tabela */
-}
-
-#instructions {
-    background-color: #d3d3d3; /* Vermelho coral para o fundo das instruções */
-    color: #161a1d; /* Branco para o texto das instruções */
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  
+  .table thead th {
+    background-color: #161a1d;
+    color: #ffffff;
+  }
+  
+  .table tbody tr:nth-child(even) {
+    background-color: #d3d3d3;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #b1a7a6;
+  }
+  
+  #instructions {
+    background-color: #d3d3d3;
+    color: #161a1d;
     padding: 1rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
-}
+  }

@@ -19,15 +19,13 @@
             <form>
                 <figure class="text-center mb-4">
                     <h4 class="font-weight-bold">Calculadora de Juros Compostos</h4>
-                    <figcaption class="blockquote-footer">
-                        Faça simulações de renda fixa
-                    </figcaption>
+                    <figcaption class="blockquote-footer">Faça simulações de renda fixa</figcaption>
                 </figure>
                 <div class="form-icon text-center mb-4">
                     <i class="fas fa-calculator fa-4x"></i>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-sm-12 col-md-6 mb-3">
                         <label for="aporteInicial">Valor Inicial</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -36,7 +34,7 @@
                             <input type="text" class="form-control" id="aporteInicial" placeholder="0,00">
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-sm-12 col-md-6 mb-3">
                         <label for="valorFinal">Valor final desejado</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -47,15 +45,15 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-3 mb-3">
+                    <div class="col-sm-6 col-md-3 mb-3">
                         <label for="anos">Anos</label>
                         <input type="number" class="form-control" id="anos" value="1" placeholder="0">
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-sm-6 col-md-3 mb-3">
                         <label for="meses">Meses</label>
-                        <input type="number" class="form-control" id="meses" value="0" placeholder="0" >
+                        <input type="number" class="form-control" id="meses" value="0" placeholder="0">
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-sm-6 col-md-3 mb-3">
                         <label for="jurosAno">Taxa de Juros (%)</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="jurosAno" value="10.00">
@@ -64,10 +62,11 @@
                                     <option value="ano" selected>Ano</option>
                                     <option value="mes">Mês</option>
                                 </select>
+
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-sm-6 col-md-3 mb-3">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="inflacaoCheck">
                             <label class="form-check-label" for="inflacaoCheck">Considerar Inflação</label>
@@ -76,14 +75,15 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-6 mb-3">
                         <button type="button" class="btn btn-danger btn-block btn-calcular" id="calcularBtn">Calcular</button>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-6 mb-3">
                         <button type="button" class="btn btn-secondary btn-block" id="limparBtn">Limpar</button>
                     </div>
                 </div>
             </form>
+
             <div id="instructions" class="alert alert-info">
                 <strong>Como utilizar a calculadora de juros compostos?</strong>
                 <ul>
@@ -96,18 +96,19 @@
                     <li>Preencha a taxa de juros anual ou mensal;</li>
                 </ul>
             </div>
+
             <h3 id="resultadosTitle" class="hidden">Resultado</h3>
             <div id="resultados" class="hidden">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="card text-white bg-info mb-3">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="card text-white bg-custom mb-3">
                             <div class="card-header">Investimento mensal necessário</div>
                             <div class="card-body">
                                 <h5 class="card-title" id="aporteMensalNecessario"></h5>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-12 col-md-6">
                         <div class="card text-white bg-danger mb-3">
                             <div class="card-header">Valor total final</div>
                             <div class="card-body">
@@ -115,7 +116,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
                         <div class="card text-white bg-secondary mb-3">
                             <div class="card-header">Valor total investido</div>
                             <div class="card-body">
@@ -123,7 +126,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-12 col-md-6">
                         <div class="card text-white bg-dark mb-3">
                             <div class="card-header">Total em juros</div>
                             <div class="card-body">
@@ -139,10 +142,7 @@
                 <div id="graficoContainer" style="display: none;">
                     <canvas id="grafico"></canvas>
                 </div>
-                
                 <div id="tabelaContainer" class="table-responsive">
-                    <table class="table table-bordered">
-                    </table>
                     <table class="table table-bordered">
                         <thead class="thead-light">
                             <tr>
@@ -154,8 +154,7 @@
                                 <th id="inflacaoColuna" style="display:none;">Total Corrigido</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelaJuros">
-                        </tbody>
+                        <tbody id="tabelaJuros"></tbody>
                     </table>
                 </div>
             </div>
