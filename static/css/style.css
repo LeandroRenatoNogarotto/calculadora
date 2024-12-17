@@ -17,14 +17,17 @@ body {
     margin: auto;
   }
   
-
-  .bg-total{
-    background-color: #481d24 !important;
-
-   }
   .bg-custom {
-    background-color: #255f85 !important;
-    /* Altere essa cor conforme sua preferência */
+    background-color: rgb(102, 7, 8) !important;
+  }
+  .bg-danger{
+    background-color: rgb(0, 21, 41) !important;
+   }
+  .bg-secondary {
+    background-color: #001427 !important;
+  }
+  .bg-dark {
+    background-color: #001427 !important;
   }
   
   
@@ -48,7 +51,7 @@ body {
   }
   
   .btn-calcular:hover {
-    background-color: #85110c;
+    background-color: #b32722;
   }
   
   .btn-secondary {

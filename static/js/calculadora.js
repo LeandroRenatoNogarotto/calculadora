@@ -254,15 +254,16 @@ function mostrarGrafico() {
                 {
                     label: 'Valor Investido',
                     data: dadosInvestido,
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgb(37, 74, 109)',
+                    borderColor: 'rgb(3, 30, 56)',
                     borderWidth: 1
                 },
                 {
+                    
                     label: 'Total em Juros',
                     data: dadosJuros,
-                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgb(223, 22, 25)',
+                    borderColor: 'rgb(133, 18, 20)',
                     borderWidth: 1
                 }
             ]
